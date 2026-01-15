@@ -55,6 +55,7 @@ def fcfs():
     processes.sort(key=lambda x: x.arrival_time)
 
     current_time = 0
+
     for p in processes:
         if current_time < p.arrival_time:
             current_time = p.arrival_time
@@ -64,6 +65,53 @@ def fcfs():
         p.turn_around_time = p.waiting_time + p.burst_time
 
     print_table(processes)
+
+
+# SJF Scheduling (Non-Preemptive)
+def sjf_non_preemptive():
+
+    print("\n --- SJK (Non - Preemptive) ---")
+
+    processes  = get_input()
+
+    n = len(processes)
+    completed = 0 
+    current_time = 0 
+    visited = [False] * n 
+    result_list = []
+
+    while completed != n :
+        idx = -1 
+        min_bt = float("inf")
+
+        for i in range(n):
+            #process arrive ho choka ha per excute nia hova
+            if(processes[i].arrival_time <= current_time and not visited[i]):
+
+                if processes[i].brust_time < min_bt:
+                    min_bt = processes[i].brust_time
+                    idx = 1 
+
+                elif processes[i].brust_time == min_bt:
+                    if processes[i].arrival_time < processes[idx].arrival_time:
+                        idx = i
+
+        if idx != -1:
+            p = processes[idx]
+            p.waiting_time = current_time - p.arrival_time
+            current_time += p.burst_time 
+            visited[idx] = True
+            completed += 1 
+            result_list.append(p)
+        else:
+            current_time += 1 
+
+    print_table(result_list)
+
+
+
+
+
 
 
 
