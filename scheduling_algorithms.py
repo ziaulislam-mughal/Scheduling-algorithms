@@ -13,3 +13,17 @@ class Process:
         self.waiting_time = 0 
         self.start = -1 
 
+    def get_input(needs_priority=False):
+        n = int(input("Enter Number of Jobs:"))
+        processes = []
+        print("Enter Details Arrival Time, Burst Time"+(",priority"if needs_priority else "")+"):")
+        for i in range(n):
+            print(f"job{i+1}:")
+            at = int(input("Arrival Time :"))
+            bt = int(input("Burst Time:"))
+            p = 0 
+            if needs_priority:
+                p = int(input("Priority (lower value = High priority)"))
+            processes.append(Process(i+1,at,bt,p))
+        return processes
+    
