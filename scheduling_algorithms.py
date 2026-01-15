@@ -13,6 +13,7 @@ class Process:
         self.waiting_time = 0 
         self.start = -1 
 
+    #Input function take input from user 
     def get_input(needs_priority=False):
         n = int(input("Enter Number of Jobs:"))
         processes = []
@@ -27,6 +28,7 @@ class Process:
             processes.append(Process(i+1,at,bt,p))
         return processes
     
+    #Display Output in Table form 
     def print_table(processes):
         print("\nJob\tATZ\tBT\tWT")
         total_wt = 0 
