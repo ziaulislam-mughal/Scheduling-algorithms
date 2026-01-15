@@ -27,3 +27,10 @@ class Process:
             processes.append(Process(i+1,at,bt,p))
         return processes
     
+    def print_table(processes):
+        print("\nJob\tATZ\tBT\tWT")
+        total_wt = 0 
+        for p in processes:
+            print(f"{p.pid}\t{p.arrival_time}\t{p.burst_time}\t{p.waiting_time}")
+            total_wt +=p.waiting_time
+            print(f"\n Average Waiting Time : {total_wt / len(processes):.2f}")
