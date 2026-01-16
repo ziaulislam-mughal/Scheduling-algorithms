@@ -87,11 +87,9 @@ def sjf_non_preemptive():
         for i in range(n):
             #process arrive ho choka ha per excute nia hova
             if(processes[i].arrival_time <= current_time and not visited[i]):
-
                 if processes[i].brust_time < min_bt:
                     min_bt = processes[i].brust_time
                     idx = 1 
-
                 elif processes[i].brust_time == min_bt:
                     if processes[i].arrival_time < processes[idx].arrival_time:
                         idx = i
@@ -108,10 +106,45 @@ def sjf_non_preemptive():
 
     print_table(result_list)
 
+# SJF (Preemptive)
+def sjf_preemptive():
+    print("\n --- SJF (Preemptive) --- ")
+    processes = get_input()
+    n = len(processes)
 
+    current_time = 0
+    completed = 0
+    min_rem_time = float("inf")
+    shortest = -1
 
+    while completed != n:
+        check = False
 
+        for i in range(n):
+            if (processes[i].arrival_time <= current_time and processes[i].remaining_time > 0 and processes[i].remaining_time < min_rem_time):
+                min_rem_time = processes[i].remaining_time
+                shortest = i
+                check = True
 
+        if not check:
+            current_time += 1
+            continue
+
+        processes[shortest].remaining_time -= 1
+        min_rem_time = processes[shortest].remaining_time
+
+        if processes[shortest].remaining_time == 0:
+            completed += 1
+            finish_time = current_time + 1
+            processes[shortest].waiting_time = ( finish_time - processes[shortest].arrival_time - processes[shortest].burst_time)
+            if processes[shortest].waiting_time < 0:
+                processes[shortest].waiting_time = 0
+
+            min_rem_time = float("inf")
+
+        current_time += 1
+
+    print_table(processes)
 
 
 
