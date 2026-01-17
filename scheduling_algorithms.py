@@ -147,4 +147,54 @@ def sjf_preemptive():
     print_table(processes)
 
 
+def priority_non_preemptive(processes):
+    """
+    processes: list of tuples
+    (pid, arrival_time, burst_time, priority)
+
+    returns: list of completed process details
+    """
+
+    time = 0
+    completed = []
+    ready_queue = []
+    processes = processes.copy()
+
+    while processes or ready_queue:
+
+        # add arrived processes to ready queue
+        for p in processes[:]:
+            if p[1] <= time:
+                ready_queue.append(p)
+                processes.remove(p)
+
+        if ready_queue:
+            # select process with highest priority
+            # (lower number = higher priority)
+            ready_queue.sort(key=lambda x: (x[3], x[1]))
+            pid, at, bt, pr = ready_queue.pop(0)
+
+            start_time = time
+            completion_time = time + bt
+            turnaround_time = completion_time - at
+            waiting_time = turnaround_time - bt
+
+            completed.append({
+                "PID": pid,
+                "Arrival": at,
+                "Burst": bt,
+                "Priority": pr,
+                "Start": start_time,
+                "Completion": completion_time,
+                "Turnaround": turnaround_time,
+                "Waiting": waiting_time
+            })
+
+            time = completion_time
+        else:
+            time += 1   # CPU idle
+
+    return completed
+
+
 
